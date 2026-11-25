@@ -138,12 +138,30 @@
     });
     const r = await api('POST', '/v1/account/google', { body: { accessToken: token } });
     if (!r.ok) throw new Error(r.body.error || 'signin_failed');
-    const anon = await U.store.get(ANON, null);
-    const cur = await getKey();
-    if (!anon && cur) await U.store.set(ANON, cur);
-    if (r.body.key && r.body.key !== cur) await setKey(r.body.key);
-    await U.store.set('accountEmail', r.body.email);
     MDM.track?.('google_signin');
+    return afterSignIn(r.body);
+  }
+
+  // ---- email + password (same account as the website) ----
+  async function signInWithEmail(email, password) {
+    const r = await api('POST', '/v1/account/login', { body: { email, password } });
+    if (!r.ok) throw new Error(r.network ? 'network' : r.status === 429 ? 'too_many' : r.body.error || 'signin_failed');
+    MDM.track?.('email_signin');
+    return afterSignIn(r.body);
+  }
+  async function registerWithEmail({ name, email, password }) {
+    const r = await api('POST', '/v1/account/register', { body: { name, email, password } });
+    if (!r.ok) throw new Error(r.network ? 'network' : r.status === 429 ? 'too_many' : r.body.error || 'signup_failed');
+    MDM.track?.('email_signup');
+    return afterSignIn(r.body);
+  }
+
+  async function afterSignIn(body) {
+    const cur = await getKey();
+    const anon = await U.store.get(ANON, null);
+    if (!anon && cur) await U.store.set(ANON, cur);
+    if (body.key && body.key !== cur) await setKey(body.key);
+    await U.store.set('accountEmail', body.email);
     return entitlement({ force: true });
   }
 
@@ -155,8 +173,10 @@
       const tok = typeof t === 'string' ? t : t?.token;
       if (tok) chrome.identity.removeCachedAuthToken({ token: tok }, () => {});
     } catch (_) {}
-    if (anon) await setKey(anon);
-    else { await U.store.remove([KEY, CACHE]); await ensureKey(); }
+    const cur = await getKey();
+    // If this browser's own key became the account key (signed up here), start a fresh browser key.
+    if (anon && anon !== cur) await setKey(anon);
+    else { await U.store.remove([KEY, ANON, CACHE]); await ensureKey(); }
     return entitlement({ force: true });
   }
 
@@ -195,5 +215,5 @@
   }
 
   MDM.track = track;
-  MDM.license = { getKey, ensureKey, entitlement, reserve, release, products, checkout, applyKey, history, signInWithGoogle, signOut, notice, serverReachable, KEY_RE };
+  MDM.license = { getKey, ensureKey, entitlement, reserve, release, products, checkout, applyKey, history, signInWithGoogle, signInWithEmail, registerWithEmail, signOut, notice, serverReachable, KEY_RE };
 })();

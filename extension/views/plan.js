@@ -54,13 +54,22 @@
         await L.signOut(); U.toast.ok(t('plan.loggedOut')); MDM.app.refreshPlan(); render();
       };
     } else {
-      ab.innerHTML = `<button class="btn" id="gsign">G&nbsp; ${U.esc(t('plan.google'))}</button><div class="small muted" style="max-width:260px;margin-top:6px">${U.esc(t('plan.googleWhy'))}</div>`;
+      ab.innerHTML = `<div class="row" style="justify-content:flex-end"><button class="btn primary" id="esign">${U.esc(t('plan.email'))}</button>
+        <button class="btn" id="gsign">G&nbsp; ${U.esc(t('plan.google'))}</button></div><div class="small muted" style="max-width:300px;margin-top:6px;margin-left:auto">${U.esc(t('plan.emailWhy'))}</div>`;
+      U.$('#esign', ab).onclick = () => {
+        if (['running', 'paused'].includes(MDM.queue.status().state)) return U.toast.error(t('send.busy'));
+        emailDialog(info.portalUrl);
+      };
       U.$('#gsign', ab).onclick = async (e) => {
         if (['running', 'paused'].includes(MDM.queue.status().state)) return U.toast.error(t('send.busy'));
         e.target.disabled = true;
         try { await L.signInWithGoogle(); U.toast.ok(t('plan.signedIn')); MDM.app.refreshPlan(); render(); }
         catch (err) { U.toast.error(t('plan.signinFail', { msg: err.message })); e.target.disabled = false; }
       };
+    }
+
+    if (info.portalUrl) {
+      U.$('#plans', root).before(U.h(`<p class="small muted" style="margin:-4px 0 12px">${U.esc(t('plan.otherMethods'))} <a href="${U.esc(info.portalUrl)}#buy" target="_blank" rel="noopener">${U.esc(t('plan.openPortal'))}</a></p>`));
     }
 
     // plans
@@ -78,6 +87,7 @@
       card.querySelector('b').textContent = p.name;
       const btn = card.querySelector('button');
       if (isCurrent && p.kind === 'subscription') { btn.textContent = t('plan.subscribed'); btn.disabled = true; }
+      else if (!p.purchasable && info.portalUrl) { btn.textContent = t('plan.buyOnSite'); btn.onclick = () => chrome.tabs.create({ url: `${info.portalUrl}#buy=${encodeURIComponent(p.code)}` }); }
       else if (!p.purchasable) { btn.textContent = t('plan.soon'); btn.disabled = true; }
       else {
         btn.textContent = p.kind === 'pass' && isCurrent ? t('plan.passExtend') : t('plan.buy', { name: p.name });
@@ -109,6 +119,49 @@
     };
     U.$('#keyApply', root).onclick = () => apply(U.$('#keyIn', root).value);
     root.querySelectorAll('[data-restore]').forEach((b) => (b.onclick = () => apply(b.dataset.restore)));
+  }
+
+  const EMAIL_ERR = { bad_credentials: 'plan.err.bad', email_taken: 'plan.err.taken', weak_password: 'plan.err.weak', invalid_email: 'plan.err.email',
+    account_disabled: 'plan.err.disabled', too_many: 'plan.err.many', network: 'plan.err.network' };
+  async function emailDialog(portalUrl) {
+    let mode = 'login';
+    const body = U.h(`<div class="form">
+      <div class="seg" id="emMode"><button data-m="login" class="on">${U.esc(t('plan.em.login'))}</button><button data-m="signup">${U.esc(t('plan.em.signup'))}</button></div>
+      <label id="emNameL" hidden><span>${U.esc(t('plan.em.name'))}</span><input type="text" id="emName" autocomplete="name" /></label>
+      <label><span>${U.esc(t('plan.em.email'))}</span><input type="text" id="emEmail" autocomplete="email" inputmode="email" /></label>
+      <label><span>${U.esc(t('plan.em.password'))}</span><input type="password" id="emPw" autocomplete="current-password" /></label>
+      <p class="small" id="emErr" style="color:var(--bad);min-height:1em;margin:0"></p>
+      ${portalUrl ? `<p class="small muted" style="margin:0"><a href="${U.esc(portalUrl)}#forgot" target="_blank" rel="noopener">${U.esc(t('plan.em.forgot'))}</a></p>` : ''}</div>`);
+    const v = await U.modal({
+      title: t('plan.email'), body,
+      actions: [{ label: t('common.cancel'), value: null }, { label: t('plan.em.go'), kind: 'primary', value: 'go' }],
+      onMount: (w, close) => {
+        const seg = U.$('#emMode', w);
+        const go = U.$$('.modal-foot .btn', w).pop();
+        seg.querySelectorAll('button').forEach((b) => (b.onclick = () => {
+          mode = b.dataset.m;
+          seg.querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b));
+          U.$('#emNameL', w).hidden = mode !== 'signup';
+          U.$('#emPw', w).autocomplete = mode === 'signup' ? 'new-password' : 'current-password';
+        }));
+        go.onclick = async () => {
+          const email = U.$('#emEmail', w).value.trim(), password = U.$('#emPw', w).value, name = U.$('#emName', w).value.trim();
+          U.$('#emErr', w).textContent = '';
+          go.disabled = true;
+          try {
+            if (mode === 'signup') await L.registerWithEmail({ name, email, password });
+            else await L.signInWithEmail(email, password);
+            close('ok');
+          } catch (e) {
+            U.$('#emErr', w).textContent = t(EMAIL_ERR[e.message] || 'plan.err.generic');
+            go.disabled = false;
+          }
+        };
+        U.$('#emPw', w).onkeydown = (e) => { if (e.key === 'Enter') go.click(); };
+        setTimeout(() => U.$('#emEmail', w).focus(), 30);
+      },
+    });
+    if (v === 'ok') { U.toast.ok(t('plan.signedIn')); MDM.app.refreshPlan(); render(); }
   }
 
   MDM.views = MDM.views || {};

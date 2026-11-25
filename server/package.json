@@ -1,19 +1,24 @@
 {
-  "name": "server",
+  "name": "meapi-dm-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "MeAPI DM license server, website, user/reseller portal and admin panel",
   "scripts": {
-    "test": "node --test test/*.test.js", "start": "node src/index.js"
+    "start": "node src/index.js",
+    "test": "node --test test/*.test.js",
+    "create-admin": "node scripts/create-admin.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "UNLICENSED",
   "dependencies": {
     "better-sqlite3": "^13.2.0",
     "cors": "^2.8.6",
     "dotenv": "^18.0.10",
     "express": "^5.3.0",
-    "express-rate-limit": "^8.7.5"
+    "express-rate-limit": "^8.7.5",
+    "nodemailer": "^10.6.1",
+    "qrcode": "^1.5.4"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=20"
   }
 }

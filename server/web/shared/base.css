@@ -1,0 +1,52 @@
+/* Shared tokens for the website, user portal and admin panel. */
+@font-face {
+  font-family: "Bricolage";
+  src: url("/shared/bricolage.woff2") format("woff2");
+  font-weight: 200 800;
+  font-display: swap;
+}
+:root {
+  --paper: #f6f4ff;
+  --panel: #ffffff;
+  --ink: #1c1633;
+  --ink-2: #4a4463;
+  --mute: #7d7896;
+  --line: #e3dff3;
+  --line-2: #efecfa;
+  --violet: #5a3cf0;
+  --violet-soft: #ece8ff;
+  --pink: #e0397f;
+  --safe: #0e9f6e;
+  --safe-soft: #e2f5ee;
+  --warn: #a8640a;
+  --warn-soft: #fff2dc;
+  --bad: #c13b2f;
+  --bad-soft: #fde9e7;
+  --grad: linear-gradient(120deg, #5a3cf0 0%, #9b39e6 55%, #e0397f 100%);
+  --display: "Bricolage", ui-sans-serif, system-ui, sans-serif;
+  --body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  --radius: 14px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 var(--body); }
+a { color: var(--violet); }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid color-mix(in srgb, var(--violet) 55%, transparent); outline-offset: 2px; border-radius: 6px; }
+h1, h2, h3 { font-family: var(--display); letter-spacing: -0.02em; line-height: 1.1; margin: 0; }
+img { max-width: 100%; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 18px; border-radius: 11px;
+  border: 1px solid var(--line); background: var(--panel); cursor: pointer; text-decoration: none; color: var(--ink); font-weight: 600; white-space: nowrap; }
+.btn:hover { border-color: #c9c2ea; }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+.btn.primary { background: var(--violet); border-color: var(--violet); color: #fff; }
+.btn.primary:hover { background: #4b2fe0; }
+.btn.danger { color: var(--bad); }
+.btn.small { min-height: 32px; padding: 0 12px; font-size: 14px; border-radius: 9px; }
+.btn.ghost { background: transparent; border-color: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
