@@ -26,13 +26,16 @@ git log --oneline -1
 say "Install + test (tests use an in-memory database, never the live one)"
 cd "$SRV"
 npm ci --omit=dev --no-audit --no-fund >/dev/null
-npm test 2>&1 | grep -E '^# (pass|fail)'
-npm test >/dev/null 2>&1 || fail "tests failed — live app left running the old code"
+# Run the tests once; judge by the exit code. The summary line differs between Node versions ("# pass" vs "ℹ pass").
+if OUT=$(env -u NODE_OPTIONS npm test 2>&1); then TEST_OK=1; else TEST_OK=; fi
+printf '%s\n' "$OUT" | grep -E '^(#|ℹ) (pass|fail) ' || true
+[ -n "$TEST_OK" ] || { printf '%s\n' "$OUT" | tail -40; fail "tests failed — live app left running the old code"; }
 
 say "Backup database"
 [ -f "$(grep -E '^DATA_DIR=' .env | cut -d= -f2)/meapi-dm.sqlite" ] && node scripts/backup.js || echo "(no database yet)"
 
 say "Restart $NAME"
+unset NODE_OPTIONS
 if pm2 describe "$NAME" >/dev/null 2>&1; then pm2 reload "$NAME" --update-env >/dev/null; else pm2 start src/index.js --name "$NAME" --cwd "$SRV" --max-memory-restart 300M >/dev/null; fi
 ok=; for i in $(seq 1 20); do curl -fsS "http://127.0.0.1:$PORT/health" >/dev/null 2>&1 && ok=1 && break; sleep 1; done
 [ -n "$ok" ] || fail "health check failed — see: pm2 logs $NAME --lines 50"
