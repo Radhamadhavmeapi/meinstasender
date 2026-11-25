@@ -1,0 +1,5 @@
+{
+  "appName": { "message": "MeAPI DM – Bulk DM Sender for Instagram" },
+  "appDesc": { "message": "Build lists from followers or Excel/CSV and send personalised Instagram DMs with safe pacing and daily limits." },
+  "actionTitle": { "message": "Open MeAPI DM" }
+}
