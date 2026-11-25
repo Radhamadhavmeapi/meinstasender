@@ -83,6 +83,10 @@ function portalRouter({ db, svc, sessions, config, mailer, razorpay, now = () =>
       supportWhatsapp: svc.setting('support_whatsapp') || null,
       creditsPerMonth: svc.intSetting('credits_per_month', 1),
       freeDailyLimit: svc.intSetting('free_daily_limit', 10),
+      bestCreditPaise: (() => {
+        const packs = svc.listProducts({ includeCredits: true }).filter((p) => p.kind === 'credits' && p.credits > 0);
+        return packs.length ? Math.min(...packs.map((p) => Math.round(p.pricePaise / p.credits))) : null;
+      })(),
       mailEnabled: mailer.enabled,
     };
   }

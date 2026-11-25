@@ -3,40 +3,194 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MeAPI DM Sender – personal Instagram DMs at a safe pace</title>
-  <meta name="description" content="Chrome extension to send personalised Instagram DMs to followers, Excel lists and leads — with daily limits, random gaps and safety breaks built in." />
+  <title>MeAPI DM Sender – Instagram DM automation with safe pacing</title>
+  <meta name="description" content="Send personalised Instagram DMs to followers, Excel lists and leads from your own account. Daily limits, random gaps, safety breaks, campaigns, reseller program. Free plan available." />
+  <meta property="og:title" content="MeAPI DM Sender – Instagram outreach on autopilot, at a safe pace" />
+  <meta property="og:description" content="Chrome extension for personalised Instagram DMs with built-in pacing, campaigns and history. Pay by UPI, card, bank transfer or PayPal." />
+  <meta property="og:image" content="/shared/logo.png" />
   <link rel="icon" href="/shared/favicon.png" />
   <link rel="stylesheet" href="/shared/base.css" />
   <link rel="stylesheet" href="/site.css" />
 </head>
-<body>
-  <header class="top">
-    <a class="brand" href="/"><img src="/shared/logo.png" alt="" width="30" height="30" /><span>MeAPI DM Sender</span></a>
-    <nav>
-      <a href="#how">How it works</a>
-      <a href="#safety">Safety</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#resellers">Resellers</a>
-      <a class="btn small" href="/users/">Sign in</a>
-    </nav>
+<body class="home">
+  <header class="nav" id="nav">
+    <div class="nav-in">
+      <a class="brand" href="/"><img src="/shared/logo.png" alt="" width="30" height="30" /><span>MeAPI DM Sender</span></a>
+      <nav aria-label="Main">
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#safety">Safety</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#resellers">Resellers</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav-cta">
+        <a class="nav-link" href="/users/#login">Sign in</a>
+        <a class="btn primary small" href="/users/#signup">Start free</a>
+      </div>
+    </div>
   </header>
 
   <main>
+    <!-- HERO -->
     <section class="hero">
-      <div class="hero-copy">
-        <h1>Reach the right people on Instagram without burning your account.</h1>
-        <p class="lede">MeAPI DM Sender is a Chrome extension that sends personalised direct messages to the lists you choose: an account's followers, an Excel sheet, or names you paste in. Every message waits its turn.</p>
-        <div class="cta">
-          <a class="btn primary" id="installBtn" href="/users/#signup">Add to Chrome — free</a>
-          <a class="btn" href="#pricing">See plans</a>
+      <div class="hero-in">
+        <div class="hero-copy">
+          <p class="pill"><span class="pill-dot"></span>English &amp; हिन्दी · UPI, card, bank &amp; PayPal</p>
+          <h1>Instagram outreach that runs itself, at a pace Instagram accepts.</h1>
+          <p class="lede">Build a lead list from any public account's followers or your Excel sheet, write one personalised message, and press start. MeAPI DM Sender sends from your own Instagram with human-like gaps, daily limits and safety breaks.</p>
+          <div class="cta">
+            <a class="btn primary big" id="installBtn" href="/users/#signup">Add to Chrome, free</a>
+            <a class="btn glass big" href="#how">See how it works</a>
+          </div>
+          <ul class="hero-points">
+            <li>Free plan, no card needed</li>
+            <li>No Instagram password shared</li>
+            <li>Your lists stay in your browser</li>
+          </ul>
         </div>
-        <p class="fine">Free plan includes <b data-free-limit>10</b> messages a day. No card needed.</p>
-      </div>
 
-      <div class="thread" aria-label="Example of a paced sending run">
-        <div class="thread-head">
-          <span class="dot"></span><b>Campaign: Pune cafés</b><span class="count"><span id="sentN">3</span> of 40 sent</span>
+        <div class="mock" aria-label="MeAPI DM Sender extension, sending a campaign">
+          <div class="win">
+            <div class="win-bar"><i></i><i></i><i></i><span>MeAPI DM · Send DM</span></div>
+            <div class="win-body">
+              <div class="win-info">
+                <div><small>Instagram</small><b><span class="ok-dot"></span>Connected</b></div>
+                <div><small>Account</small><b>@studio.pixelcraft</b></div>
+                <div><small>Today</small><b><span id="mockCount">7</span> / 50</b></div>
+                <div><small>Pacing</small><b>30s+ gap · break every 10</b></div>
+              </div>
+              <div class="win-grid">
+                <div class="g-head"><span>Instagram username</span><span>name</span><span>city</span><span>Status</span></div>
+                <div class="g-row"><span>@chai.corner.pune</span><span>Rohan</span><span>Pune</span><span class="s sent">✓ Sent</span></div>
+                <div class="g-row"><span>@beanbag.koregaon</span><span>Sneha</span><span>Pune</span><span class="s sent">✓ Sent</span></div>
+                <div class="g-row"><span>@the.filter.house</span><span>Arjun</span><span>Pune</span><span class="s sent">✓ Sent</span></div>
+                <div class="g-row live"><span>@momo.station.fc</span><span>Kiran</span><span>Pune</span><span class="s sending">● Sending</span></div>
+                <div class="g-row"><span>@brew.and.bake</span><span>Meera</span><span>Pune</span><span class="s">Pending</span></div>
+                <div class="g-row"><span>@urban.tadka</span><span>Vikram</span><span>Pune</span><span class="s">Pending</span></div>
+              </div>
+              <div class="win-run">
+                <div><b>Next message in <span id="mockSecs">38</span>s</b><small>7 sent · 0 failed · 40 total</small></div>
+                <div class="bar"><i id="mockBar"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="phone">
+            <div class="ph-top"><span class="ph-av"></span><div><b>Kiran</b><small>@momo.station.fc</small></div></div>
+            <div class="ph-thread"><p class="bubble">Hi Kiran, your momo platter reels are fire 🔥 We make short videos for food spots in Pune. Can I send you 2 free samples?</p></div>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <!-- FACTS -->
+    <section class="facts" aria-label="Product facts">
+      <div><b>4</b><span>ways to build a list: followers, following, Excel/CSV, paste</span></div>
+      <div><b>100</b><span>messages a day per Instagram account, hard cap</span></div>
+      <div><b>20 s+</b><span>random gap between messages, never a fixed rhythm</span></div>
+      <div><b>0</b><span>passwords shared — runs in your logged-in browser</span></div>
+    </section>
+
+    <!-- COMPARISON -->
+    <section class="compare">
+      <h2>Stop copy-pasting the same DM fifty times.</h2>
+      <div class="cmp">
+        <div class="cmp-col before">
+          <h3>Doing it by hand</h3>
+          <ul>
+            <li>Open each profile, tap Message, paste, edit the name</li>
+            <li>Lose track of who you already messaged</li>
+            <li>Same text to everyone, so replies are rare</li>
+            <li>Two hours for 40 messages</li>
+          </ul>
+        </div>
+        <div class="cmp-col after">
+          <h3>With MeAPI DM Sender</h3>
+          <ul>
+            <li>Import 500 followers in a few minutes</li>
+            <li>Already-messaged people are skipped automatically</li>
+            <li>Every message uses their name, city or offer</li>
+            <li>Press start, it paces itself while you work</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="features">
+      <h2>Everything you need for Instagram outreach, in one extension</h2>
+      <p class="sub">Built for agencies, freelancers, coaches and local businesses that find customers on Instagram.</p>
+      <div class="bento">
+        <article class="tile wide">
+          <div class="tile-copy"><h3>Turn any audience into a lead list</h3><p>Type a public account and collect its followers or following. Private accounts, duplicates and people you've already messaged drop out.</p></div>
+          <div class="viz viz-import">
+            <div class="src"><span class="av a1"></span><b>@pune.foodies</b><small>48.2k followers</small></div>
+            <div class="arrow" aria-hidden="true"></div>
+            <ul><li>@chai.corner.pune</li><li>@beanbag.koregaon</li><li>@the.filter.house</li><li class="more">+ 497 more</li></ul>
+          </div>
+        </article>
+        <article class="tile">
+          <h3>Excel columns become variables</h3>
+          <p>Upload a sheet; every column is ready to drop into your message.</p>
+          <div class="viz chips"><span>{{name}}</span><span>{{city}}</span><span>{{company}}</span><span>{{offer}}</span></div>
+        </article>
+        <article class="tile">
+          <h3>No two messages identical</h3>
+          <p>Write <code>{Hi|Hello|Namaste}</code> and each person gets a different opening.</p>
+          <div class="viz spin"><span>Hi Priya,</span><span>Hello Rahul,</span><span>Namaste Anjali,</span></div>
+        </article>
+        <article class="tile">
+          <h3>Campaigns that pick up where they stopped</h3>
+          <p>Big lists continue across days within your daily limit. Pause, edit, resume, retry failed.</p>
+          <div class="viz camp"><div><b>Pune cafés</b><small>40 / 120 sent</small></div><div class="bar"><i style="width:33%"></i></div></div>
+        </article>
+        <article class="tile">
+          <h3>Several Instagram accounts</h3>
+          <p>Switch accounts on Instagram and keep going. Each account has its own daily count.</p>
+          <div class="viz accts"><span><i class="av a2"></i>@studio.pixelcraft <b>32/50</b></span><span><i class="av a3"></i>@pixelcraft.reels <b>12/50</b></span></div>
+        </article>
+        <article class="tile wide">
+          <div class="tile-copy"><h3>Full history and reports</h3><p>Every attempt is logged with the exact text sent, who sent it and when. Search, filter, export to CSV or Excel, or allow someone to be messaged again.</p></div>
+          <div class="viz hist">
+            <div><span class="tag ok">Sent</span><b>@chai.corner.pune</b><small>10:41</small></div>
+            <div><span class="tag ok">Sent</span><b>@beanbag.koregaon</b><small>10:42</small></div>
+            <div><span class="tag skip">Skipped</span><b>@urban.tadka</b><small>already messaged</small></div>
+          </div>
+        </article>
+      </div>
+      <ul class="minor">
+        <li><b>Phone preview</b> shows exactly what each person receives</li>
+        <li><b>Paste from Excel</b> straight into the list with Ctrl+V, undo and redo included</li>
+        <li><b>Self-test</b> checks your setup in one click when something looks wrong</li>
+        <li><b>हिन्दी and English</b> interface</li>
+      </ul>
+    </section>
+
+    <!-- HOW -->
+    <section id="how" class="how">
+      <h2>Live in five minutes</h2>
+      <ol class="steps">
+        <li><h3>Install and sign in</h3><p>Add the extension to Chrome and sign in with your MeAPI account. Make sure you're logged in to Instagram in the same browser.</p></li>
+        <li><h3>Build your list</h3><p>Collect followers of a relevant account, import your Excel/CSV, or paste usernames and profile links.</p></li>
+        <li><h3>Write one message</h3><p>Add variables and variations. Flip through the phone preview to check how it reads for each person.</p></li>
+        <li><h3>Press start</h3><p>Leave the tab open. Messages go out with random gaps and breaks, and stop on their own if Instagram pushes back.</p></li>
+      </ol>
+    </section>
+
+    <!-- SAFETY -->
+    <section id="safety" class="safety">
+      <div class="safety-copy">
+        <h2>Pacing is built in, not a setting you can forget</h2>
+        <p>Instagram limits accounts that send too fast or too much. MeAPI DM Sender sends the way a careful person would, and stops by itself the moment something looks wrong.</p>
+        <ul class="rules">
+          <li><b>100 / day</b><span>Hard cap per Instagram account. You can set it lower; new accounts should stay at 20–30.</span></li>
+          <li><b>20–600 s</b><span>Random wait between messages, between 1× and 2× your setting.</span></li>
+          <li><b>30–240 min</b><span>Break after every 10 messages, with a little extra random time.</span></li>
+          <li><b>Auto-stop</b><span>When Instagram limits the account, logs you out, or several sends fail in a row. The account then rests for 24 hours.</span></li>
+        </ul>
+      </div>
+      <div class="thread" aria-label="Example of a paced sending run">
+        <div class="thread-head"><span class="dot"></span><b>Campaign: Pune cafés</b><span class="count">3 of 40 sent</span></div>
         <ol class="msgs">
           <li class="msg"><span class="to">@chai.corner.pune</span><p>Hi Rohan, saw your new menu board — we make reels for cafés in Pune. Can I send two samples?</p></li>
           <li class="gap">waits 41 s</li>
@@ -47,80 +201,108 @@
           <li class="msg pending"><span class="to">@momo.station.fc</span><p>Hi Kiran, …</p></li>
         </ol>
       </div>
+      <p class="note">Automated messaging is against Instagram's terms of use, and accounts that send unwanted messages can be limited or banned. Keep messages relevant and personal; you use the extension at your own risk.</p>
     </section>
 
-    <section id="how" class="how">
-      <h2>How it works</h2>
-      <ol class="steps">
-        <li><h3>Build your list</h3><p>Pull the followers or following of any public account, import an Excel or CSV file, or paste usernames. Duplicates and people you've already messaged drop out automatically.</p></li>
-        <li><h3>Write one message, personalised</h3><p>Use <code>{{first_name}}</code>, any column from your sheet, and variations like <code>{Hi|Hello}</code>. A phone preview shows exactly what each person receives.</p></li>
-        <li><h3>Press start and walk away</h3><p>Messages go out from your own logged-in Instagram with random gaps and breaks. Big lists continue the next day from where they stopped.</p></li>
-      </ol>
-    </section>
-
-    <section class="features">
-      <h2>Everything a small team needs for outreach</h2>
-      <dl>
-        <div><dt>Followers and following import</dt><dd>Turn a competitor's or partner's audience into a lead list in a few minutes.</dd></div>
-        <div><dt>Excel, CSV and paste</dt><dd>Every extra column — city, company, offer — becomes a variable in your message.</dd></div>
-        <div><dt>Campaigns that remember</dt><dd>Pause, edit, switch Instagram accounts and resume. Retry the ones that failed with one click.</dd></div>
-        <div><dt>Never message twice</dt><dd>Anyone you've messaged from this browser is skipped, across every account and campaign.</dd></div>
-        <div><dt>Full history</dt><dd>Every attempt is logged with the exact text sent. Export to CSV whenever you need a report.</dd></div>
-        <div><dt>English and Hindi</dt><dd>The whole extension is available in both languages.</dd></div>
-      </dl>
-    </section>
-
-    <section id="safety" class="safety">
-      <div>
-        <h2>Pacing is built in, not optional</h2>
-        <p>Instagram limits accounts that send too fast or too much. MeAPI DM Sender follows the same habits a careful person would — and stops by itself the moment Instagram pushes back.</p>
+    <!-- USE CASES -->
+    <section class="uses">
+      <h2>Who uses it</h2>
+      <div class="use-grid">
+        <article><h3>Social media agencies</h3><p>Reach local brands that post often but have weak content.</p><blockquote>Hi {{name}}, loved your new collection. We shoot reels for boutiques in {{city}} — want 2 free ideas?</blockquote></article>
+        <article><h3>D2C and online stores</h3><p>Invite followers of similar brands to a launch or a coupon.</p><blockquote>Hey {{first_name}}! We just launched handmade soy candles 🕯️ Here's 15% off for you: CANDLE15</blockquote></article>
+        <article><h3>Coaches and creators</h3><p>Follow up with people who engage in your niche.</p><blockquote>Hi {{first_name}}, saw you're into fitness. I'm hosting a free 5-day plan this Monday. Want the link?</blockquote></article>
+        <article><h3>Real estate</h3><p>Share new projects with people interested in your area.</p><blockquote>Namaste {{name}}, 2 BHK launch in {{city}} at pre-launch prices this week. Shall I send the brochure?</blockquote></article>
+        <article><h3>Local services</h3><p>Salons, gyms, cafés and clinics reaching people nearby.</p><blockquote>Hi {{first_name}}, we just opened in {{area}}! First visit is 20% off this month.</blockquote></article>
+        <article><h3>Recruiters and B2B</h3><p>Start conversations with founders and creators directly.</p><blockquote>Hi {{name}}, I help {{industry}} brands get leads from Instagram. Open to a 10-minute chat?</blockquote></article>
       </div>
-      <ul class="rules">
-        <li><b>100</b><span>messages a day per Instagram account, at most. You can set it lower.</span></li>
-        <li><b>20–600 s</b><span>random gap between messages, never a fixed rhythm.</span></li>
-        <li><b>30+ min</b><span>break after every 10 messages.</span></li>
-        <li><b>Auto-stop</b><span>when Instagram limits the account, logs you out, or several sends fail in a row.</span></li>
-      </ul>
-      <p class="note">Automated messaging is against Instagram's terms of use. Accounts that send unwanted messages can be limited or banned — keep messages relevant and personal, and use the extension at your own risk.</p>
     </section>
 
+    <!-- PRICING -->
     <section id="pricing" class="pricing">
-      <h2>Plans</h2>
-      <p class="sub">Prices in Indian rupees. Pay by UPI, card, net banking, bank transfer or PayPal.</p>
+      <div class="pricing-head">
+        <div><h2>Simple plans</h2><p class="sub">Start free. Upgrade for more messages per day. Paid time adds on to any time you have left.</p></div>
+        <div class="seg" role="group" aria-label="Currency"><button type="button" data-cur="inr" class="on">₹ INR</button><button type="button" data-cur="usd">$ USD</button></div>
+      </div>
       <div class="plans" id="plans">
         <article class="plan">
           <h3>Free</h3>
-          <p class="price">₹0</p>
-          <ul><li><span data-free-limit>10</span> messages a day</li><li>All list imports</li><li>History and self-test</li></ul>
+          <p class="price"><span data-inr>₹0</span><span data-usd hidden>$0</span> <small>forever</small></p>
+          <ul><li><span data-free-limit>10</span> messages a day</li><li>All list imports</li><li>Campaigns, history and self-test</li><li>English and Hindi</li></ul>
           <a class="btn" href="/users/#signup">Create free account</a>
         </article>
       </div>
+      <p class="pay-methods">Pay with <b>UPI</b> · <b>cards</b> · <b>net banking</b> · <b>bank transfer</b> · <b>PayPal</b>.</p>
     </section>
 
+    <!-- RESELLERS -->
     <section id="resellers" class="resellers">
-      <div>
-        <h2>Sell it to your own clients</h2>
-        <p>Agencies and resellers buy credits at a wholesale rate, create accounts for their clients and switch on PRO from their own dashboard. One credit gives one client a month of PRO.</p>
+      <div class="res-copy">
+        <h2>Resell MeAPI DM Sender to your clients</h2>
+        <p>Buy credits at a wholesale price, create accounts for your clients from your own dashboard and switch on PRO for 1, 3, 6 or 12 months. You set your own selling price.</p>
+        <ul>
+          <li>One credit = one client-month of PRO</li>
+          <li>Create and manage client accounts, reset passwords, disable access</li>
+          <li>Pay for credits by UPI, bank transfer, card or PayPal</li>
+          <li>Full credit history for your own accounting</li>
+        </ul>
+        <a class="btn primary big" href="/users/#signup">Apply as a reseller</a>
       </div>
-      <div class="cta">
-        <a class="btn primary" href="/users/#signup">Apply as a reseller</a>
-        <span class="fine">Create an account, then choose “Become a reseller”.</span>
+      <div class="calc" aria-label="Reseller profit calculator">
+        <h3>Your monthly profit</h3>
+        <label><span>Clients on PRO <b id="cClients">20</b></span><input type="range" id="rClients" min="1" max="200" value="20" /></label>
+        <label><span>You charge per client / month <b id="cPrice">₹1,000</b></span><input type="range" id="rPrice" min="300" max="3000" step="50" value="1000" /></label>
+        <div class="calc-out">
+          <div><small>Your cost</small><b id="cCost">₹5,000</b><small id="cPer">at ₹250 per credit</small></div>
+          <div class="profit"><small>Profit</small><b id="cProfit">₹14,980</b><small>every month</small></div>
+        </div>
+        <p class="fine">Cost uses the best credit-pack price. Figures are an estimate, before taxes.</p>
       </div>
     </section>
 
-    <section class="faq">
+    <!-- PRIVACY -->
+    <section class="privacy">
+      <h2>Your data stays with you</h2>
+      <div class="priv-grid">
+        <div><h3>In your browser only</h3><p>Recipient lists, messages, campaigns and history are stored in Chrome on your computer. We never receive them.</p></div>
+        <div><h3>No Instagram password</h3><p>The extension works inside the Instagram session you're already logged in to. Your password and cookies never reach us.</p></div>
+        <div><h3>What our server knows</h3><p>Your account email, your licence, how many messages you sent today, and your payments. Nothing else.</p></div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq">
       <h2>Questions</h2>
-      <details><summary>Do you need my Instagram password?</summary><p>No. The extension works inside the Instagram account you're already logged in to in Chrome. Your password never reaches us.</p></details>
-      <details><summary>Where are my lists and messages stored?</summary><p>In your own browser. Our server only knows your licence, how many messages you sent today, and your payments.</p></details>
-      <details><summary>Can I use more than one Instagram account?</summary><p>Yes. Switch accounts on Instagram and the extension follows; each account has its own daily limit.</p></details>
-      <details><summary>What happens when I hit the free limit?</summary><p>Sending stops for the day and continues tomorrow, or you can buy a 24-hour pass or PRO to finish today.</p></details>
-      <details><summary>How do I pay by UPI or bank transfer?</summary><p>Sign in, pick a plan and choose UPI or bank transfer. Pay, enter the UTR number, and your plan is switched on as soon as we confirm the payment.</p></details>
+      <div class="faq-cols">
+        <details><summary>Do you need my Instagram password?</summary><p>No. The extension works inside the Instagram account you're already logged in to in Chrome. Your password never reaches us.</p></details>
+        <details><summary>Can my account get banned?</summary><p>Any automation carries risk, and Instagram can limit accounts that send unwanted messages. The extension keeps to strict daily limits, random gaps and breaks, and stops as soon as Instagram pushes back. Send relevant, personal messages and start with 20–30 a day on new accounts.</p></details>
+        <details><summary>Do I need to keep my computer on?</summary><p>Yes. Sending runs in your Chrome, so keep Chrome open and the computer awake while a campaign runs. If the internet drops, it pauses and continues by itself.</p></details>
+        <details><summary>Can I use more than one Instagram account?</summary><p>Yes. Switch accounts in Instagram and the extension follows. Each account has its own daily limit, and nobody is messaged twice across accounts.</p></details>
+        <details><summary>Can I collect followers of private accounts?</summary><p>Only if your Instagram account can already see that list. Public accounts work for everyone.</p></details>
+        <details><summary>What happens at the free limit?</summary><p>Sending stops for the day and continues tomorrow. To finish today, buy a 24-hour pass or PRO.</p></details>
+        <details><summary>How do I pay by UPI or bank transfer?</summary><p>Sign in, pick a plan, choose UPI or bank transfer, pay, and enter the UTR number. Your plan switches on as soon as we confirm the payment, usually within a few hours.</p></details>
+        <details><summary>Do subscriptions renew automatically?</summary><p>Card and UPI-autopay subscriptions through Razorpay renew until you cancel. UPI QR, bank transfer and PayPal payments are one-off: you renew when you want.</p></details>
+        <details><summary>Does it work on Mac, Windows and Linux?</summary><p>Yes, in Google Chrome (and other Chromium browsers like Edge or Brave) on any desktop. Phones are not supported.</p></details>
+        <details><summary>Can I get a refund?</summary><p>Yes, within 7 days of your first payment if the extension doesn't work for you. See the <a href="/refund">refund policy</a>.</p></details>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="final">
+      <h2>Your next 50 customers are already following someone on Instagram.</h2>
+      <p>Start with the free plan today. No card needed.</p>
+      <div class="cta"><a class="btn primary big" href="/users/#signup">Create free account</a><a class="btn glass big" href="#pricing">Compare plans</a></div>
     </section>
   </main>
 
-  <footer>
-    <div><img src="/shared/logo.png" alt="" width="22" height="22" /> MeAPI DM Sender</div>
-    <nav><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/refund">Refunds</a><a href="/users/">Sign in</a><a id="supportLink" href="#" hidden>Support</a></nav>
+  <footer class="foot">
+    <div class="foot-in">
+      <div class="foot-brand"><a class="brand" href="/"><img src="/shared/logo.png" alt="" width="28" height="28" /><span>MeAPI DM Sender</span></a>
+        <p>Personalised Instagram outreach with safe pacing. A product by MeAPI.</p></div>
+      <div><h4>Product</h4><a href="#features">Features</a><a href="#safety">Safety</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
+      <div><h4>Account</h4><a href="/users/#signup">Create account</a><a href="/users/#login">Sign in</a><a href="#resellers">Resellers</a></div>
+      <div><h4>Legal</h4><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/refund">Refunds</a><a id="supportLink" href="#" hidden>Support</a></div>
+    </div>
+    <p class="copy">© <span id="year">2026</span> MeAPI. Instagram is a trademark of Meta Platforms, Inc. This product is not affiliated with or endorsed by Meta.</p>
   </footer>
   <script src="/site.js"></script>
 </body>
