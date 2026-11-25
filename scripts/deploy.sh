@@ -4,6 +4,14 @@
 # Never touches other PM2 apps, nginx, SSL, MariaDB or system packages.
 # Run as root:  bash /www/wwwroot/dmsender.meapi.in/app/scripts/deploy.sh
 set -euo pipefail
+# bash reads a script while it runs, and the git reset below can replace this very file.
+# Run from a private copy so an updated deploy.sh never breaks the run that pulls it.
+if [ -z "${MDM_DEPLOY_COPY:-}" ]; then
+  TMP=$(mktemp /tmp/meapi-dm-deploy.XXXXXX.sh)
+  cp "$0" "$TMP"
+  MDM_DEPLOY_COPY="$TMP" exec bash "$TMP" "$@"
+fi
+trap 'rm -f "$MDM_DEPLOY_COPY"' EXIT
 APP=/www/wwwroot/dmsender.meapi.in/app
 SRV=$APP/server
 NAME=meapi-dm
